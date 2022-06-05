@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('lastname');
             // phones - by relationship
             $table->string('local')->default('en');
+
             // socials
             $table->string('twitter')->nullable();
             $table->string('github')->nullable();
