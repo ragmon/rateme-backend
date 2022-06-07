@@ -18,6 +18,7 @@ return new class extends Migration
             $table->morphs('owner');
             $table->string('value');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

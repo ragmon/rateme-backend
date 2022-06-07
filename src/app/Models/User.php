@@ -61,4 +61,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->morphMany(Phone::class, 'owner');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function photos()
+    {
+        return $this->morphMany(Photo::class, 'owner');
+    }
 }

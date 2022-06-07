@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
-            // phones - by relationship
             $table->string('local')->default('en');
 
             // socials
@@ -27,7 +26,9 @@ return new class extends Migration
             $table->string('reddit')->nullable();
             $table->string('facebook')->nullable();
             $table->string('telegram')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

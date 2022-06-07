@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon created_at
  * @property Carbon updated_at
  * @property Model owner
+ * @property int owner_id
+ * @property string owner_type
  */
 class Phone extends Model
 {
