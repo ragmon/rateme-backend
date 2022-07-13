@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('local')->default('en');
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
+            $table->string('lang')->default('en');
 
             // socials
             $table->string('twitter')->nullable();
@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('reddit')->nullable();
             $table->string('facebook')->nullable();
             $table->string('telegram')->nullable();
+
+            $table->timestamp('login_at')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

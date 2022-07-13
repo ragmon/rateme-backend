@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('phones', function (Blueprint $table) {
             $table->id();
-            $table->morphs('owner');
-            $table->string('value');
+            $table->nullableMorphs('owner');
+            $table->string('phone');
+            $table->boolean('is_main')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

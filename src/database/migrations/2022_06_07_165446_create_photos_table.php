@@ -18,7 +18,7 @@ return new class extends Migration
             $table->morphs('owner');
             $table->string('path');
             $table->boolean('is_main')->default(false);
-            $table->string('driver')->default('local');
+            $table->enum('driver', ['remote', 'local']);
             $table->timestamps();
             $table->softDeletes();
         });

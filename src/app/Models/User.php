@@ -6,15 +6,17 @@ use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Lumen\Auth\Authorizable;
 
 /**
  * @property int id
  * @property string firstname
  * @property string lastname
- * @property string local
+ * @property string lang
  * @property string twitter
  * @property string github
  * @property string instagram
@@ -23,10 +25,16 @@ use Laravel\Lumen\Auth\Authorizable;
  * @property string telegram
  * @property Carbon created_at
  * @property Carbon updated_at
+ * @property Collection phones
+ * @property Collection contacts
+ * @property Collection photos
+ * @property Collection skills
+ * @property Collection rates
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable, HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -34,7 +42,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var string[]
      */
     protected $fillable = [
-        'name', 'email',
+        'firstname',
+        'lastname',
+        'lang',
+        'twitter',
+        'github',
+        'instagram',
+        'reddit',
+        'facebook',
+        'telegram',
     ];
 
     /**
@@ -43,7 +59,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var string[]
      */
     protected $hidden = [
-        'password',
+        //
     ];
 
     /**
@@ -68,5 +84,28 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function photos()
     {
         return $this->morphMany(Photo::class, 'owner');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function skills()
+    {
+        return $this->hasMany(Skill::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rates()
+    {
+        return $this->hasMany(Rate::class);
+    }
+
+    public function getAuthCredentials()
+    {
+        return [
+            'x-user-phones' => $this->phones->pluck('phone'),
+        ];
     }
 }

@@ -16,3 +16,22 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->get('/docs', function () {
+    return view('docs');
+});
+
+$router->group(['prefix' => '/api'], function () use ($router) {
+    // Auth
+    $router->post('/auth/login', ['uses' => 'AuthController@login', 'as' => 'auth.login']);
+
+    // User
+    $router->get('/users[/{id}]', ['uses' => 'UserController@show', 'as' => 'user.show']);
+    $router->post('/users/upload_photo', ['uses' => 'UserController@uploadAvatar', 'as' => 'user.upload_photo']);
+    $router->put('/users', ['uses' => 'UserController@update', 'as' => 'user.update']);
+    $router->patch('/users', ['uses' => 'UserController@changePhone', 'as' => 'user.change_phone']);
+
+    // Geography
+    $router->get('/countries', ['uses' => 'GeographyController@countries', 'as' => 'geography.countries']);
+});
+

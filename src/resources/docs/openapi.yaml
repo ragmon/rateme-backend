@@ -1,0 +1,211 @@
+openapi: 3.0.0
+info:
+  title: My Special
+  description: My special app backend API
+  version: 0.0.1
+
+servers:
+  - url: http://localhost/api
+    description: Сервер локального хоста
+
+tags:
+  - name: Авторизация
+  - name: Пользователи
+  - name: География
+  - name: Навыки
+  - name: Оценки
+
+paths:
+  /auth/login:
+    post:
+      summary: Авторизация
+      tags:
+        - Авторизация
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestBody'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /users:
+    get:
+      tags:
+        - Пользователи
+      summary: Получение данных авторизированного пользователя
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /users/{id}:
+    get:
+      tags:
+        - Пользователи
+      summary: Получение данных пользователя по его ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: Пользовательский ID
+          required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/upload_photo:
+    post:
+      tags:
+        - Пользователи
+      summary: Загрузка изображения
+      description: Загружает изображение на сервер и добавляет в коллекцию авторизированного пользоватя
+      requestBody:
+        $ref: '#/components/requestBodies/UploadPhoto'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Photo'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /countries:
+    get:
+      tags:
+        - География
+      summary: Получение списка стран
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+
+components:
+  schemas:
+    Country:
+      type: object
+      properties:
+        sortname:
+          type: string
+          title: Сокращённое наименование для сортировки
+        name_en:
+          type: string
+          title: Название страны на английском языке
+    LoginRequestBody:
+      type: object
+      properties:
+        phone:
+          type: string
+          title: Номер телефона
+    UserCredentials:
+      type: object
+      properties:
+        x-user-phones:
+          type: string
+          title: Идентификатор пользователя
+          description: В качестве идентификатора используется номер телефона пользователя
+    ValidationError:
+      type: object
+      properties:
+        error:
+          type: array
+          items:
+            type: string
+    Photo:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: ID изображения
+        path:
+          type: string
+          title: Путь к изображению
+        is_main:
+          type: boolean
+          title: Статус основного изображения
+    PhotoList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Photo'
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: ID пользователя
+        photos:
+          $ref: '#/components/schemas/PhotoList'
+        firstname:
+          type: string
+          title: Имя
+        lastname:
+          type: string
+          title: Фамилия
+        lang:
+          type: string
+          title: Код языка
+        twitter:
+          type: string
+          title: Twitter URL
+        github:
+          type: string
+          title: Github URL
+        instagram:
+          type: string
+          title: Instagram URL
+        reddit:
+          type: string
+          title: Reddit URL
+        facebook:
+          type: string
+          title: Facebook URL
+        telegram:
+          type: string
+          title: Telegram URL
+    UploadImageRequestBody:
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
+          title: Файл изображения
+          description: "Поддерживаемые форматы: jpeg,png,jpg"
+
+
+  requestBodies:
+    UploadPhoto:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UploadImageRequestBody'
+
+  responses:
+    UnauthorizedError:
+      description: "Unauthorized"
+    ServerError:
+      description: "Internal server error"

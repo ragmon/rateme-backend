@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Phone;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,8 +23,24 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
+            'firstname' => $this->faker->firstName,
+            'lastname' => $this->faker->lastName,
+            'lang' => $this->faker->locale,
+
+            'twitter' => $this->faker->url,
+            'github' => $this->faker->url,
+            'instagram' => $this->faker->url,
+            'reddit' => $this->faker->url,
+            'facebook' => $this->faker->url,
+            'telegram' => $this->faker->url,
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            // Creating phones for user
+            Phone::factory()->for($user, 'owner')->count(mt_rand(1, 2))->create();
+        });
     }
 }
