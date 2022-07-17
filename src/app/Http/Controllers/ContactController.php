@@ -37,6 +37,7 @@ class ContactController extends Controller
 
         $users = $this->repository->listByPhones($phones);
         $users->loadCount(['rates', 'rated']);
+        $users->load(['photos']);
 
         return $this->respondData($users);
     }

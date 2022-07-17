@@ -26,6 +26,11 @@ class Photo extends Model
 
     protected $hidden = [
         'driver',
+        'owner_type',
+        'owner_id',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**

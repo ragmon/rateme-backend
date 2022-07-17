@@ -14,6 +14,7 @@ tags:
   - name: География
   - name: Навыки
   - name: Оценки
+  - name: Контакты
 
 paths:
   /auth/login:
@@ -105,8 +106,47 @@ paths:
         401:
           $ref: '#/components/responses/UnauthorizedError'
 
+  /contacts:
+    get:
+      tags:
+        - Контакты
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactList'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+
 components:
   schemas:
+    ContactList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Contact'
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstname:
+          type: string
+        lastname:
+          type: string
+        lang:
+          type: string
+        rates_count:
+          type: integer
+          description: Сколько раз оценивал
+        rated_count:
+          type: integer
+          description: Сколько раз был оценен
+        photos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Photo'
     Country:
       type: object
       properties:

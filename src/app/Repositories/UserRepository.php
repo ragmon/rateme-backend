@@ -107,7 +107,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function listByPhones(iterable $phones)
     {
-        return User::whereHas('phones', function (Builder $query) use ($phones) {
+        return User::select(['id', 'lang', 'firstname', 'lastname'])->whereHas('phones', function (Builder $query) use ($phones) {
             $query->whereIn('phone', $phones);
         })->get();
     }
