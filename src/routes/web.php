@@ -33,5 +33,8 @@ $router->group(['prefix' => '/api'], function () use ($router) {
 
     // Geography
     $router->get('/countries', ['uses' => 'GeographyController@countries', 'as' => 'geography.countries']);
+
+    // Contacts
+    $router->get('/contacts', ['uses' => 'ContactController@index', 'as' => 'geography.countries']);
 });
 

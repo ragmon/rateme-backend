@@ -15,4 +15,5 @@ interface UserRepositoryInterface
     public function createUser(string $phone);
     public function findByPhone(string $phone);
     public function updateLoginAt(int $userID);
+    public function listByPhones(array $phones);
 }

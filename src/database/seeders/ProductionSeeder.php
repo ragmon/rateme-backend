@@ -22,8 +22,7 @@ class ProductionSeeder extends Seeder
     private function seedCountries()
     {
         if (DB::table('countries')->count() > 0) {
-            $this->command->info('Countries already seeded. Skipping...');
-            return;
+            return $this->command->info('Countries already seeded. Skipping...');
         }
 
         $path = database_path('sql/countries.sql');

@@ -17,7 +17,7 @@ docker compose exec app composer install
 docker compose exec app composer run-script refresh
 ```
 
-### Засеить БД тестовыми пользователями
+### Засеить БД тестовыми пользователями с общими контактами
 ```
 docker compose exec app php artisan db:seed --class=UsersSeeder
 ```

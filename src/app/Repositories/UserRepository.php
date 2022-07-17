@@ -104,5 +104,12 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             'login_at' => Carbon::now()
         ]);
     }
+
+    public function listByPhones(iterable $phones)
+    {
+        return User::whereHas('phones', function (Builder $query) use ($phones) {
+            $query->whereIn('phone', $phones);
+        })->get();
+    }
 }
 

@@ -37,4 +37,12 @@ class Contact extends Model
     {
         return $this->morphMany(Phone::class, 'owner');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
+    public function photo()
+    {
+        return $this->morphOne(Photo::class, 'owner');
+    }
 }

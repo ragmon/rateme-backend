@@ -59,7 +59,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var string[]
      */
     protected $hidden = [
-        //
+        'created_at', 'updated_at', 'deleted_at'
     ];
 
     /**
@@ -100,6 +100,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function rates()
     {
         return $this->hasMany(Rate::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function rated()
+    {
+        return $this->hasManyThrough(Rate::class, Skill::class);
     }
 
     public function getAuthCredentials()

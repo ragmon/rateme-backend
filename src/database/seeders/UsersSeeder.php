@@ -34,6 +34,7 @@ class UsersSeeder extends Seeder
         )->has(
             Contact::factory()
                 ->has(Phone::factory()->count(2))
+                ->has(Photo::factory())
                 ->count(5)
         )->count(5)->create();
 

@@ -27,4 +27,12 @@ class Skill extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rated()
+    {
+        return $this->hasMany(Rate::class);
+    }
 }
